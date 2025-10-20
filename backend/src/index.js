@@ -1,4 +1,4 @@
-import express from "express"
+import express, { request, response } from "express"
 import cors from "cors"
 
 import { persons } from "./persons.js"
@@ -9,9 +9,20 @@ const port = 3333
 // GET, POST, PATCH, PUT, DELETE
 
 app.use(cors())
+app.use(express.json())
 
 app.get("/", (request, response) => {
     response.json(persons)
+})
+
+app.post("/cadastrar", (request, response) => {
+    // desestruturação
+    const { user } = request.body
+    console.log(user)
+
+    // cadastro no banco de dados
+
+    response.status(201).json({ message: "Usuário cadastrado com sucesso!" })
 })
 
 app.listen(port, () => {
