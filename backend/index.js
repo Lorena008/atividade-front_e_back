@@ -25,6 +25,31 @@ app.get("/", (request, response) => {
    })
 })
 
+app.post("/login", (request, response) => {
+    const { email, password } = request.body.user
+
+    const selectCommand = "SELECT * FROM lorenamendes_02mb WHERE email = ?"
+
+    database.query(selectCommand, [email], (error, user) => {
+        if (error) {
+            console.log(error)
+            return
+        }
+
+        //se o usuário não existir ou se a senha estiver incorreta
+        if (user.length === 0 || user[0].password !== password) {
+            response.json({ message: "Usuário ou senha incorretos!" })
+            return
+        }
+
+        response.json({ id: user[0].id, name: user[0].name })
+    })
+})
+
+app.post("pontuacao", (request, response) => {
+    
+})
+
 app.post("/cadastrar", (request, response) => {
     // desestruturação
     const { user } = request.body
